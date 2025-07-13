@@ -1,0 +1,129 @@
+@font-face {
+  font-family: "IranYekan";
+  src: url("../fonts/iranyekanwebregular.woff2") format("woff2"),
+    url("../fonts/iranyekanwebregular.woff") format("woff"),
+    url("../fonts/iranyekanwebregular.ttf") format("truetype"),
+    url("../fonts/iranyekanwebregular.eot");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  font-family: "IranYekan", Vazirmatn, Tahoma, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+body h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+:root {
+  --bg: #f7f7f7;
+  --text: #222;
+  --primary: #1976d2;
+  --border: #ddd;
+  --table-header: #e3e3e3;
+}
+[data-theme="dark"] {
+  --bg: #181a1b;
+  --text: #f1f1f1;
+  --primary: #90caf9;
+  --border: #333;
+  --table-header: #23272a;
+}
+h2,
+h3 {
+  color: var(--primary);
+}
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+form {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+  max-width: 400px;
+  margin: 16px auto;
+  border: 1px solid var(--border);
+}
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: 1em;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  width: 100%;
+  box-sizing: border-box;
+}
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #125ea2;
+}
+table {
+  border-collapse: collapse;
+  width: 95%;
+  margin: 16px auto;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+th,
+td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+th {
+  background: var(--table-header);
+}
+@media (max-width: 600px) {
+  table,
+  th,
+  td {
+    font-size: 0.95em;
+  }
+  form {
+    max-width: 98vw;
+  }
+}
+.toggle-theme {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  cursor: pointer;
+  z-index: 1000;
+  border: none;
+  box-shadow: 0 2px 8px #0002;
+}
