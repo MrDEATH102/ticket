@@ -14,15 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email]);
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            if ($user['role'] === 'admin') {
-                header('Location: admin/index.php');
-            } elseif ($user['role'] === 'agent') {
-                header('Location: dashboard/agent.php');
-            } else {
-                header('Location: dashboard/user.php');
-            }
+            // مرحله دوم: ارسال کد تایید دو مرحله‌ای
+            require_once __DIR__ . '/includes/mailer.php';
+            $code = rand(100000, 999999);
+            $_SESSION['2fa_code'] = $code;
+            $_SESSION['2fa_expire'] = time() + 300; // 5 دقیقه
+            $_SESSION['2fa_user_id'] = $user['id'];
+            $_SESSION['2fa_role'] = $user['role'];
+            $_SESSION['2fa_email'] = $user['email'];
+            $html = "<p>کد ورود دومرحله‌ای شما:</p><h2>$code</h2>";
+            $plain = "کد ورود شما: $code";
+            send_email($user['email'], "کد ورود دومرحله‌ای شما – elaico", $html, $plain);
+            header('Location: verify.php');
             exit;
         } else {
             $errors[] = 'ایمیل یا رمز عبور اشتباه است.';

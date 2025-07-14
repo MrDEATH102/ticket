@@ -58,6 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$ticket_id, $agent_id, $message, $attachment]);
             // تغییر وضعیت تیکت به answered
             $pdo->prepare('UPDATE tickets SET status = "answered" WHERE id = ?')->execute([$ticket_id]);
+            // ارسال ایمیل به کاربر
+            $user_stmt = $pdo->prepare('SELECT u.email, u.first_name, u.last_name FROM users u WHERE u.id = ?');
+            $user_stmt->execute([$ticket['user_id']]);
+            $user = $user_stmt->fetch();
+            $agent_stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = ?');
+            $agent_stmt->execute([$agent_id]);
+            $agent = $agent_stmt->fetch();
+            $ticket_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/ticketing-system/ticket/view.php?id=' . $ticket_id;
+            require_once __DIR__ . '/../includes/mailer.php';
+            $html = "<p>سلام {$user['first_name']} عزیز،</p><p>پشتیبان {$agent['first_name']} {$agent['last_name']} به تیکت شما پاسخ داده است:</p><blockquote>" . nl2br(htmlspecialchars($message)) . "</blockquote><p><a href='$ticket_link'>مشاهده تیکت</a></p>";
+            $plain = "پاسخ جدید از {$agent['first_name']} {$agent['last_name']}:
+$message
+مشاهده تیکت: $ticket_link";
+            send_email($user['email'], "پاسخ جدید به تیکت شما – elaico", $html, $plain);
             header('Location: agent_view.php?id=' . $ticket_id);
             exit;
         }
