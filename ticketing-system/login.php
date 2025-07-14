@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // مرحله دوم: ارسال کد تایید دو مرحله‌ای
             require_once __DIR__ . '/includes/mailer.php';
             // Cooldown: 2 minutes
-            if (isset($user['reset_token_expiry']) && $user['reset_token_expiry'] && strtotime($user['reset_token_expiry']) > time() && strtotime($user['reset_token_expiry']) - time() > 13*60) {
+            if (isset($user['reset_token_expiry']) && $user['reset_token_expiry'] && strtotime($user['reset_token_expiry']) > time() && strtotime($user['reset_token_expiry']) - time() > 13 * 60) {
                 $errors[] = 'درخواست ورود قبلی شما هنوز فعال است. لطفاً کمی بعد دوباره تلاش کنید.';
             } else {
                 $code = rand(100000, 999999);
@@ -58,13 +58,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <form method="post">
         <input name="email" type="email" placeholder="ایمیل" required><br>
-        <input name="password" type="password" placeholder="رمز عبور" required><br>
+        <!-- eye icon -->
+        <div style="position:relative; display:inline-block;">
+            <input id="password" name="password" type="password" placeholder="رمز عبور" required style="padding-left:36px;">
+            <span id="togglePassword" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="gray">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+            </span>
+        </div><br>
         <button type="submit">ورود</button>
     </form>
     <div class="sign-para">
         <p>حساب ندارید؟ <a href="register.php">ثبت‌نام</a></p>
         <p><a href="forgot_password.php">رمز عبور را فراموش کرده‌اید؟</a></p>
     </div>
+    <!-- script  -->
+    <script>
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+    </script>
 </body>
 
 </html>

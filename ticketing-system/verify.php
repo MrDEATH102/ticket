@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'کد را وارد کنید.';
     } elseif (time() > $_SESSION['2fa_expire']) {
         $errors[] = 'کد منقضی شده است. لطفاً دوباره وارد شوید.';
-        session_unset(); session_destroy();
+        session_unset();
+        session_destroy();
     } elseif ($input_code != $_SESSION['2fa_code']) {
         $errors[] = 'کد وارد شده صحیح نیست.';
     } else {
@@ -33,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="fa">
+
 <head>
     <?php include __DIR__ . '/includes/head.php'; ?>
 </head>
+
 <body>
     <h2>تایید دو مرحله‌ای</h2>
     <?php if ($errors): ?>
@@ -47,6 +50,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input name="code" placeholder="کد ۶ رقمی ارسال شده به ایمیل" required><br>
         <button type="submit">تایید</button>
     </form>
+    <!-- new code  -->
+    <button id="resendBtn" disabled>ارسال مجدد کد</button>
+    <p id="timer"></p>
+    <script>
+        let cooldown = 120;
+        let timerDisplay = document.getElementById('timer');
+        let resendBtn = document.getElementById('resendBtn');
+
+        function updateTimer() {
+            if (cooldown > 0) {
+                resendBtn.disabled = true;
+                timerDisplay.textContent = `امکان ارسال مجدد کد تا ${cooldown} ثانیه دیگر.`;
+                cooldown--;
+            } else {
+                resendBtn.disabled = false;
+                timerDisplay.textContent = '';
+            }
+        }
+        updateTimer();
+        let interval = setInterval(updateTimer, 1000);
+        resendBtn.addEventListener('click', function() {
+            location.reload(); // Reload to trigger backend resend logic
+        });
+    </script>
     <p>کد به ایمیل شما ارسال شد: <?= htmlspecialchars($_SESSION['2fa_email']) ?></p>
 </body>
-</html> 
+
+</html>
