@@ -1,6 +1,15 @@
 <?php
 require_once __DIR__ . '/../config.php';
 session_start();
+// Set navigation token if not set
+if (!isset($_SESSION['nav_token'])) {
+    $_SESSION['nav_token'] = bin2hex(random_bytes(16));
+}
+// Navigation token check
+if (!isset($_SESSION['nav_token']) || !isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
+    header('Location: ../login.php');
+    exit;
+}
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header('Location: ../login.php');
     exit;

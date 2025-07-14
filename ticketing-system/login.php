@@ -16,17 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             // مرحله دوم: ارسال کد تایید دو مرحله‌ای
             require_once __DIR__ . '/includes/mailer.php';
-            $code = rand(100000, 999999);
-            $_SESSION['2fa_code'] = $code;
-            $_SESSION['2fa_expire'] = time() + 300; // 5 دقیقه
-            $_SESSION['2fa_user_id'] = $user['id'];
-            $_SESSION['2fa_role'] = $user['role'];
-            $_SESSION['2fa_email'] = $user['email'];
-            $html = "<p>کد ورود دومرحله‌ای شما:</p><h2>$code</h2>";
-            $plain = "کد ورود شما: $code";
-            send_email($user['email'], "کد ورود دومرحله‌ای شما – elaico", $html, $plain);
-            header('Location: verify.php');
-            exit;
+            // Cooldown: 2 minutes
+            if (isset($user['reset_token_expiry']) && $user['reset_token_expiry'] && strtotime($user['reset_token_expiry']) > time() && strtotime($user['reset_token_expiry']) - time() > 13*60) {
+                $errors[] = 'درخواست ورود قبلی شما هنوز فعال است. لطفاً کمی بعد دوباره تلاش کنید.';
+            } else {
+                $code = rand(100000, 999999);
+                $_SESSION['2fa_code'] = $code;
+                $_SESSION['2fa_expire'] = time() + 300; // 5 دقیقه
+                $_SESSION['2fa_user_id'] = $user['id'];
+                $_SESSION['2fa_role'] = $user['role'];
+                $_SESSION['2fa_email'] = $user['email'];
+                $html = "<p>کد ورود دومرحله‌ای شما:</p><h2>$code</h2>";
+                $plain = "کد ورود شما: $code";
+                send_email($user['email'], "کد ورود دومرحله‌ای شما – elaico", $html, $plain);
+                // Set/reset cooldown (reuse reset_token_expiry for simplicity)
+                $expiry = date('Y-m-d H:i:s', time() + 120); // 2 min
+                $stmt = $pdo->prepare('UPDATE users SET reset_token_expiry = ? WHERE id = ?');
+                $stmt->execute([$expiry, $user['id']]);
+                header('Location: verify.php');
+                exit;
+            }
         } else {
             $errors[] = 'ایمیل یا رمز عبور اشتباه است.';
         }
@@ -54,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <div class="sign-para">
         <p>حساب ندارید؟ <a href="register.php">ثبت‌نام</a></p>
+        <p><a href="forgot_password.php">رمز عبور را فراموش کرده‌اید؟</a></p>
     </div>
 </body>
 

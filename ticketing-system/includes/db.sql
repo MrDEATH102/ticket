@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
     center_name VARCHAR(100),
     center_address VARCHAR(255),
     role ENUM('admin', 'agent', 'user') DEFAULT 'user',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reset_token VARCHAR(100),
+    reset_token_expiry DATETIME
 );
 
 -- tickets table

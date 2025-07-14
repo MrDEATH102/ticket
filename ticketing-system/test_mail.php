@@ -20,6 +20,7 @@ try {
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
     $mail->addAddress('massamongus@gmail.com'); // <-- put your real email here
 
+    $mail->CharSet = 'UTF-8';
     $mail->isHTML(true);
     $mail->Subject = 'Test Email from XAMPP';
     $mail->Body    = '<b>This is a test email sent from PHPMailer on XAMPP.</b>';

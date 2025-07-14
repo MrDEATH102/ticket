@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // ورود نهایی
         $_SESSION['user_id'] = $_SESSION['2fa_user_id'];
         $_SESSION['role'] = $_SESSION['2fa_role'];
+        $_SESSION['nav_token'] = bin2hex(random_bytes(16));
         unset($_SESSION['2fa_code'], $_SESSION['2fa_expire'], $_SESSION['2fa_user_id'], $_SESSION['2fa_role'], $_SESSION['2fa_email']);
         if ($_SESSION['role'] === 'admin') {
             header('Location: admin/index.php');
