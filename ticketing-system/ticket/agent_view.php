@@ -131,6 +131,7 @@ function status_fa($status) {
         <input type="file" name="attachment" accept=".jpg,.jpeg,.png,.pdf"><br>
         <button type="submit" name="action" value="reply">ارسال پاسخ</button>
     </form>
+    <hr>
     <h3>تغییر وضعیت تیکت</h3>
     <form method="post">
         <select name="new_status">

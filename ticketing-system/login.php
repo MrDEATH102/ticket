@@ -51,16 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <h2>ورود</h2>
-    <?php if ($errors): ?>
-        <ul style="color:red;">
-            <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
-        </ul>
-    <?php endif; ?>
     <form method="post">
         <input name="email" type="email" placeholder="ایمیل" required><br>
         <!-- eye icon -->
-        <div style="position:relative; display:inline-block;">
-            <input id="password" name="password" type="password" placeholder="رمز عبور" required style="padding-left:36px;">
+        <div style="position:relative; display:inline-block; width: 100%;">
+            <input id="password" name="password" type="password" placeholder="رمز عبور" required>
             <span id="togglePassword" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); cursor:pointer;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="gray">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -74,6 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>حساب ندارید؟ <a href="register.php">ثبت‌نام</a></p>
         <p><a href="forgot_password.php">رمز عبور را فراموش کرده‌اید؟</a></p>
     </div>
+    <?php if ($errors): ?>
+        <ul style="color:red; display:flex; align-items:center; justify-content:center;">
+            <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
+        </ul>
+    <?php endif; ?>
     <!-- script  -->
     <script>
         const passwordInput = document.getElementById('password');
