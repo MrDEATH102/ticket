@@ -206,17 +206,17 @@ function status_fa($status) {
             <div><b>ایمیل:</b> <?= htmlspecialchars($agent['email']) ?></div>
             <button class="change-pass-btn" onclick="window.location.href='../change_password.php'">تغییر رمز عبور</button>
         </div>
-        <h2>تیکت‌های من و آزاد</h2>
-        <table border="1" cellpadding="5" style="margin-top:10px;">
-            <tr>
-                <th>کد تیکت</th>
-                <th>عنوان</th>
-                <th>کاربر</th>
-                <th>اولویت</th>
-                <th>وضعیت</th>
-                <th>تاریخ</th>
-                <th>مشاهده</th>
-            </tr>
+    <h2>تیکت‌های من و آزاد</h2>
+    <table border="1" cellpadding="5" style="margin-top:10px;">
+        <tr>
+            <th>کد تیکت</th>
+            <th>عنوان</th>
+            <th>کاربر</th>
+            <th>اولویت</th>
+            <th>وضعیت</th>
+            <th>تاریخ</th>
+            <th>مشاهده</th>
+        </tr>
             <?php
             $status_filter = isset($_GET['status']) ? $_GET['status'] : '';
             if ($status_filter && in_array($status_filter, ['open','pending','answered','closed'])) {
@@ -229,25 +229,25 @@ function status_fa($status) {
                 $tickets = $stmt->fetchAll();
             }
             ?>
-            <?php foreach ($tickets as $t): ?>
+        <?php foreach ($tickets as $t): ?>
             <tr id="<?= htmlspecialchars($t['status']) ?>">
-                <td><?= htmlspecialchars($t['unique_code']) ?></td>
-                <td><?= htmlspecialchars($t['title']) ?></td>
-                <td>
-                    <?php
-                    $u = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = ?');
-                    $u->execute([$t['user_id']]);
-                    $user = $u->fetch();
-                    echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']);
-                    ?>
-                </td>
-                <td><?= htmlspecialchars($t['priority']) ?></td>
-                <td><?= status_fa($t['status']) ?></td>
-                <td><?= htmlspecialchars($t['created_at']) ?></td>
-                <td><a href="../ticket/agent_view.php?id=<?= $t['id'] ?>">مشاهده</a></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+            <td><?= htmlspecialchars($t['unique_code']) ?></td>
+            <td><?= htmlspecialchars($t['title']) ?></td>
+            <td>
+                <?php
+                $u = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = ?');
+                $u->execute([$t['user_id']]);
+                $user = $u->fetch();
+                echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']);
+                ?>
+            </td>
+            <td><?= htmlspecialchars($t['priority']) ?></td>
+            <td><?= status_fa($t['status']) ?></td>
+            <td><?= htmlspecialchars($t['created_at']) ?></td>
+            <td><a href="../ticket/agent_view.php?id=<?= $t['id'] ?>">مشاهده</a></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
     </main>
 </div>
 <script>

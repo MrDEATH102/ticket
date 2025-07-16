@@ -23,8 +23,8 @@ if ($status_filter && in_array($status_filter, ['open','pending','answered','clo
     $tickets = $stmt->fetchAll();
 } else {
     $stmt = $pdo->prepare('SELECT * FROM tickets WHERE user_id = ? ORDER BY created_at DESC');
-    $stmt->execute([$user_id]);
-    $tickets = $stmt->fetchAll();
+$stmt->execute([$user_id]);
+$tickets = $stmt->fetchAll();
 }
 function status_fa($status) {
     switch ($status) {
@@ -216,27 +216,27 @@ function status_fa($status) {
             <div><b>ایمیل:</b> <?= htmlspecialchars($user['email']) ?></div>
             <button class="change-pass-btn" onclick="window.location.href='../change_password.php'">تغییر رمز عبور</button>
         </div>
-        <h2>تیکت‌های من</h2>
-        <table border="1" cellpadding="5" style="margin-top:10px;">
-            <tr>
-                <th>کد تیکت</th>
-                <th>عنوان</th>
-                <th>اولویت</th>
-                <th>وضعیت</th>
-                <th>تاریخ</th>
-                <th>مشاهده</th>
-            </tr>
-            <?php foreach ($tickets as $t): ?>
+    <h2>تیکت‌های من</h2>
+    <table border="1" cellpadding="5" style="margin-top:10px;">
+        <tr>
+            <th>کد تیکت</th>
+            <th>عنوان</th>
+            <th>اولویت</th>
+            <th>وضعیت</th>
+            <th>تاریخ</th>
+            <th>مشاهده</th>
+        </tr>
+        <?php foreach ($tickets as $t): ?>
             <tr id="<?= htmlspecialchars($t['status']) ?>">
-                <td><?= htmlspecialchars($t['unique_code']) ?></td>
-                <td><?= htmlspecialchars($t['title']) ?></td>
-                <td><?= htmlspecialchars($t['priority']) ?></td>
-                <td><?= status_fa($t['status']) ?></td>
-                <td><?= htmlspecialchars($t['created_at']) ?></td>
-                <td><a href="../ticket/view.php?id=<?= $t['id'] ?>">مشاهده</a></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+            <td><?= htmlspecialchars($t['unique_code']) ?></td>
+            <td><?= htmlspecialchars($t['title']) ?></td>
+            <td><?= htmlspecialchars($t['priority']) ?></td>
+            <td><?= status_fa($t['status']) ?></td>
+            <td><?= htmlspecialchars($t['created_at']) ?></td>
+            <td><a href="../ticket/view.php?id=<?= $t['id'] ?>">مشاهده</a></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
     </main>
 </div>
 <script>
