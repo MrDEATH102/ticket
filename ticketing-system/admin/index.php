@@ -157,12 +157,6 @@ $admin = $stmt->fetch();
             <button class="change-pass-btn" onclick="window.location.href='../change_password.php'">تغییر رمز عبور</button>
         </div>
         <h2>پنل مدیریت</h2>
-        <ul>
-            <li><a href="users.php">مدیریت کاربران</a></li>
-            <li><a href="roles.php">تغییر نقش کاربران (افزودن پشتیبان)</a></li>
-            <li><a href="add_agent.php">افزودن پشتیبان جدید</a></li>
-            <li><a href="../logout.php">خروج</a></li>
-        </ul>
     </main>
 </div>
 <script>

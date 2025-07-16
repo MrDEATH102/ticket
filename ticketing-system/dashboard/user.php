@@ -16,9 +16,16 @@ $user_id = $_SESSION['user_id'];
 $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
-$stmt = $pdo->prepare('SELECT * FROM tickets WHERE user_id = ? ORDER BY created_at DESC');
-$stmt->execute([$user_id]);
-$tickets = $stmt->fetchAll();
+$status_filter = isset($_GET['status']) ? $_GET['status'] : '';
+if ($status_filter && in_array($status_filter, ['open','pending','answered','closed'])) {
+    $stmt = $pdo->prepare('SELECT * FROM tickets WHERE user_id = ? AND status = ? ORDER BY created_at DESC');
+    $stmt->execute([$user_id, $status_filter]);
+    $tickets = $stmt->fetchAll();
+} else {
+    $stmt = $pdo->prepare('SELECT * FROM tickets WHERE user_id = ? ORDER BY created_at DESC');
+    $stmt->execute([$user_id]);
+    $tickets = $stmt->fetchAll();
+}
 function status_fa($status) {
     switch ($status) {
         case 'open': return 'باز';
@@ -195,11 +202,10 @@ function status_fa($status) {
             <li onclick="window.location.href='../change_password.php'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 11V7a5 5 0 0 0-10 0v4M5 11h14v10H5V11Zm7 4v2"/></svg><span>تغییر رمز عبور</span></li>
             <li id="tickets-toggle" style="user-select:none;cursor:pointer;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg><span>تیکت‌ها</span></li>
             <ul class="sidebar-menu submenu" id="tickets-submenu">
-                <li onclick="window.location.href='../ticket/new.php'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14m7-7H5"/></svg><span>ارسال تیکت جدید</span></li>
-                <li onclick="window.location.href='user.php#open'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg><span>باز</span></li>
-                <li onclick="window.location.href='user.php#pending'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><span>در انتظار</span></li>
-                <li onclick="window.location.href='user.php#answered'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg><span>پاسخ داده شده</span></li>
-                <li onclick="window.location.href='user.php#closed'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M6 12h12"/></svg><span>بسته</span></li>
+                <li><a href="user.php?status=open" id="filter-open" class="ticket-filter<?= (isset($_GET['status']) && $_GET['status'] === 'open') ? ' active' : '' ?>"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg><span>باز</span></a></li>
+                <li><a href="user.php?status=pending" id="filter-pending" class="ticket-filter<?= (isset($_GET['status']) && $_GET['status'] === 'pending') ? ' active' : '' ?>"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><span>در انتظار</span></a></li>
+                <li><a href="user.php?status=answered" id="filter-answered" class="ticket-filter<?= (isset($_GET['status']) && $_GET['status'] === 'answered') ? ' active' : '' ?>"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg><span>پاسخ داده شده</span></a></li>
+                <li><a href="user.php?status=closed" id="filter-closed" class="ticket-filter<?= (isset($_GET['status']) && $_GET['status'] === 'closed') ? ' active' : '' ?>"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M6 12h12"/></svg><span>بسته</span></a></li>
             </ul>
             <li onclick="window.location.href='../logout.php'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 17l5-5-5-5M21 12H9"/><path d="M3 21V3h6"/></svg><span>خروج</span></li>
         </ul>
