@@ -73,29 +73,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post" autocomplete="none">
         <input name="code" placeholder="کد ۶ رقمی ارسال شده به ایمیل" required><br>
         <button type="submit">تایید</button>
-        <button id="resendBtn" disabled type="button" onclick="location.reload()">ارسال مجدد کد</button>
-        <?php if ($is_signup): ?>
+        <button id="resendBtn" disabled type="button">ارسال مجدد کد</button>
+        <?php if (
+            $is_signup
+        ): ?>
             <button type="button" onclick="window.location.href='register.php?edit=1'">بازگشت به ثبت‌نام</button>
         <?php endif; ?>
     </form>
     <p id="timer"></p>
     <script>
-        let cooldown = 120;
-        let timerDisplay = document.getElementById('timer');
-        let resendBtn = document.getElementById('resendBtn');
+        // Get expiration from PHP session
+        var expireAt = <?= $is_signup ? (int)($_SESSION['signup_2fa_expire'] ?? 0) : ($is_login ? (int)($_SESSION['2fa_expire'] ?? 0) : 0) ?>;
+        var now = <?= time() ?>;
+        var remaining = expireAt - now;
+        var timerDisplay = document.getElementById('timer');
+        var resendBtn = document.getElementById('resendBtn');
 
         function updateTimer() {
-            if (cooldown > 0) {
+            if (remaining > 0) {
                 resendBtn.disabled = true;
-                timerDisplay.textContent = `امکان ارسال مجدد کد تا ${cooldown} ثانیه دیگر.`;
-                cooldown--;
+                timerDisplay.textContent = `امکان ارسال مجدد کد تا ${remaining} ثانیه دیگر.`;
+                remaining--;
             } else {
                 resendBtn.disabled = false;
                 timerDisplay.textContent = '';
             }
         }
         updateTimer();
-        let interval = setInterval(updateTimer, 1000);
+        var interval = setInterval(updateTimer, 1000);
+
+        resendBtn.onclick = function() {
+            if (resendBtn.disabled) return;
+            resendBtn.disabled = true;
+            timerDisplay.textContent = 'در حال ارسال...';
+            fetch('resend_2fa.php?signup=<?= $is_signup ? 1 : 0 ?>')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        expireAt = data.expireAt;
+                        remaining = expireAt - data.now;
+                        timerDisplay.textContent = `کد جدید ارسال شد. امکان ارسال مجدد کد تا ${remaining} ثانیه دیگر.`;
+                        resendBtn.disabled = true;
+                    } else {
+                        timerDisplay.textContent = data.message || 'خطا در ارسال مجدد کد';
+                        resendBtn.disabled = false;
+                    }
+                })
+                .catch(() => {
+                    timerDisplay.textContent = 'خطا در ارسال مجدد کد';
+                    resendBtn.disabled = false;
+                });
+        };
     </script>
     <p>کد به ایمیل شما ارسال شد: 
         <?= $is_signup ? htmlspecialchars($_SESSION['signup_data']['email']) : (isset($_SESSION['2fa_email']) ? htmlspecialchars($_SESSION['2fa_email']) : '') ?>

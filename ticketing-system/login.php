@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $code = rand(100000, 999999);
                 $_SESSION['2fa_code'] = $code;
-                $_SESSION['2fa_expire'] = time() + 300; // 5 دقیقه
+                $_SESSION['2fa_expire'] = time() + 120; // 2 دقیقه
                 $_SESSION['2fa_user_id'] = $user['id'];
                 $_SESSION['2fa_role'] = $user['role'];
                 $_SESSION['2fa_email'] = $user['email'];
