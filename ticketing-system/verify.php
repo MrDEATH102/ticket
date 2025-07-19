@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h2><?= $is_signup ? 'تایید ایمیل ثبت‌نام' : 'تایید دو مرحله‌ای' ?></h2>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>

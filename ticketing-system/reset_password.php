@@ -48,12 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h2>بازیابی رمز عبور</h2>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>
     <?php if ($success): ?>
-        <p style="color:green;"><?= $success ?></p>
+        <p class="success-messages"><?= $success ?></p>
         <p><a href="login.php">ورود</a></p>
     <?php endif; ?>
     <?php if ($show_form): ?>

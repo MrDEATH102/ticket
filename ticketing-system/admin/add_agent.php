@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fa">
 <head>
     <?php include __DIR__ . '/../includes/head.php'; ?>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <a href="index.php">بازگشت به پنل مدیریت</a>

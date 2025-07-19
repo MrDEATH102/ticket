@@ -104,6 +104,7 @@ function status_fa($status) {
 <html lang="fa">
 <head>
     <?php include __DIR__ . '/../includes/head.php'; ?>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <a href="../dashboard/agent.php">بازگشت به داشبورد</a>
@@ -111,7 +112,7 @@ function status_fa($status) {
     <p>وضعیت: <?= status_fa($ticket['status']) ?> | اولویت: <?= htmlspecialchars($ticket['priority']) ?></p>
     <hr>
     <?php foreach ($messages as $msg): ?>
-        <div style="margin-bottom:15px; border-bottom:1px solid #ccc;">
+        <div class="ticket-header">
             <b><?= htmlspecialchars($msg['first_name'] . ' ' . $msg['last_name']) ?> (<?= $msg['role'] === 'agent' ? 'پشتیبان' : 'کاربر' ?>):</b>
             <div><?= nl2br(htmlspecialchars($msg['message'])) ?></div>
             <?php if ($msg['attachment']): ?>
@@ -122,7 +123,7 @@ function status_fa($status) {
     <?php endforeach; ?>
     <h3>ارسال پاسخ</h3>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>

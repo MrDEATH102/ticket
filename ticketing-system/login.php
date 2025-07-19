@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post">
         <input name="email" type="email" placeholder="ایمیل" required><br>
         <!-- eye icon -->
-        <div style="position:relative; display:inline-block; width: 100%;">
+        <div class="password-container">
             <input id="password" name="password" type="password" placeholder="رمز عبور" required>
-            <span id="togglePassword" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            <span id="togglePassword" class="toggle-password">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="gray">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p><a href="forgot_password.php">رمز عبور را فراموش کرده‌اید؟</a></p>
     </div>
     <?php if ($errors): ?>
-        <ul style="color:red; display:flex; align-items:center; justify-content:center;">
+        <ul class="error-messages" style="display:flex; align-items:center; justify-content:center;">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>

@@ -67,12 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fa">
 <head>
     <?php include __DIR__ . '/../includes/head.php'; ?>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <h2>ارسال تیکت جدید</h2>
     <a href="../dashboard/user.php">بازگشت به داشبورد</a>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>

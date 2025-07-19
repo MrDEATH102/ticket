@@ -79,16 +79,16 @@ function toggleTheme() {
     if (theme) document.documentElement.setAttribute('data-theme', theme);
 })();
 </script>
-<div style="max-width:400px;margin:40px auto;">
+<div class="form-container">
     <h2>تغییر رمز عبور</h2>
     <p>برای تغییر رمز عبور، ابتدا رمز جدید را وارد کنید. سپس یک کد تایید به ایمیل شما ارسال می‌شود و باید آن را وارد کنید.</p>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>
     <?php if ($success): ?>
-        <div style="color:green;">رمز عبور با موفقیت تغییر کرد.</div>
+        <div class="success-messages">رمز عبور با موفقیت تغییر کرد.</div>
         <a href="dashboard/user.php">بازگشت به داشبورد</a>
     <?php elseif ($step === 1): ?>
         <form method="post" autocomplete="off">
@@ -101,7 +101,7 @@ function toggleTheme() {
             <input name="code" placeholder="کد تایید ارسال شده به ایمیل" required><br>
             <button type="submit">تایید و تغییر رمز عبور</button>
         </form>
-        <p style="color:#888;">کد به ایمیل شما ارسال شد: <?= htmlspecialchars($email) ?></p>
+        <p class="verification-notice">کد به ایمیل شما ارسال شد: <?= htmlspecialchars($email) ?></p>
     <?php endif; ?>
     <p><a href="dashboard/user.php">بازگشت به داشبورد</a></p>
 </div>

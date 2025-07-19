@@ -42,12 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h2>فراموشی رمز عبور</h2>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>
     <?php if ($success): ?>
-        <p style="color:green;"><?= $success ?></p>
+        <p class="success-messages"><?= $success ?></p>
     <?php endif; ?>
     <form method="post">
         <input name="email" type="email" placeholder="ایمیل" required><br>

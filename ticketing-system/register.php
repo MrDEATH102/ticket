@@ -67,7 +67,7 @@ if (isset($_GET['edit'])) {
 <body>
     <h2>فرم ثبت‌نام</h2>
     <?php if ($errors): ?>
-        <ul style="color:red;">
+        <ul class="error-messages">
             <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
         </ul>
     <?php endif; ?>
