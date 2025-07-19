@@ -200,6 +200,7 @@ function status_fa($status) {
         <ul class="sidebar-menu">
             <li class="active"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.418 0-8 2.015-8 4.5V21h16v-2.5c0-2.485-3.582-4.5-8-4.5Z"/></svg><span>پروفایل</span></li>
             <li onclick="window.location.href='../change_password.php'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 11V7a5 5 0 0 0-10 0v4M5 11h14v10H5V11Zm7 4v2"/></svg><span>تغییر رمز عبور</span></li>
+            <li onclick="window.location.href='../ticket/new.php'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14m7-7H5"/></svg><span>ارسال تیکت جدید</span></li>
             <li id="tickets-toggle" style="user-select:none;cursor:pointer;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg><span>تیکت‌ها</span></li>
             <ul class="sidebar-menu submenu" id="tickets-submenu">
                 <li><a href="user.php?status=open" id="filter-open" class="ticket-filter<?= (isset($_GET['status']) && $_GET['status'] === 'open') ? ' active' : '' ?>"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg><span>باز</span></a></li>
