@@ -136,6 +136,13 @@ th {
   background: var(--bg);
 }
 
+/* Mobile dashboard container */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+}
+
 .sidebar {
   width: 220px;
   background: var(--bg);
@@ -222,6 +229,48 @@ th {
   overflow: visible;
 }
 
+/* Mobile submenu positioning */
+@media (max-width: 768px) {
+  .sidebar-menu .submenu {
+    padding-right: 0;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px #0002;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .sidebar-menu .submenu li {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    margin: 0;
+    padding: 12px 16px;
+  }
+
+  .sidebar-menu .submenu li:last-child {
+    border-bottom: none;
+  }
+
+  .sidebar-menu .submenu li a {
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-menu .submenu li a svg {
+    margin-left: 0;
+  }
+}
+
 .main-panel {
   flex: 1;
   margin-right: 220px;
@@ -253,8 +302,8 @@ th {
 /* Dashboard Tables */
 .dashboard-container table {
   border-collapse: collapse;
-  width: 95%;
-  margin: 16px auto;
+  width: 100%;
+  margin: 16px 0;
   background: var(--bg);
   border: 1px solid var(--border);
 }
@@ -409,6 +458,29 @@ th {
   min-width: 80px;
 }
 
+/* Status styling for table cells */
+.dashboard-container th:nth-child(4),
+.dashboard-container td:nth-child(4) {
+  font-weight: bold;
+  min-width: 80px;
+}
+
+.status-cell-open {
+  color: #1976d2 !important;
+}
+
+.status-cell-pending {
+  color: #f57c00 !important;
+}
+
+.status-cell-answered {
+  color: #388e3c !important;
+}
+
+.status-cell-closed {
+  color: #616161 !important;
+}
+
 .status-open {
   background: #e3f2fd;
   color: #1976d2;
@@ -478,6 +550,337 @@ th {
   }
 }
 
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  /* Sidebar adjustments for mobile */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px #0001;
+  }
+
+  .sidebar .user-info {
+    padding: 16px 0;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .sidebar .user-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0;
+  }
+
+  .sidebar .user-name {
+    font-size: 1em;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .sidebar-menu li {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .sidebar-menu li span {
+    display: inline;
+    font-size: 0.9em;
+    margin-right: 8px;
+  }
+
+  .sidebar-menu svg {
+    margin-left: 0;
+    min-width: 20px;
+    min-height: 20px;
+    margin-right: 8px;
+  }
+
+  .sidebar-menu .submenu {
+    position: relative;
+    border-radius: 6px;
+    margin-top: 4px;
+    z-index: 100;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    background: transparent;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar-menu .submenu.expanded {
+    max-height: 300px;
+    overflow: visible;
+    border: 1px solid var(--border);
+    background: var(--table-header);
+    opacity: 1;
+    margin-top: 4px;
+    padding: 4px 0;
+  }
+
+  .sidebar-menu .submenu.expanded {
+    max-height: 300px;
+    overflow: visible;
+  }
+
+  .sidebar-menu .submenu li {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    margin: 0;
+    padding: 12px 16px;
+  }
+
+  .sidebar-menu .submenu li:last-child {
+    border-bottom: none;
+  }
+
+  .sidebar-menu .submenu li a {
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .sidebar-menu .submenu li a:hover {
+    color: var(--primary);
+  }
+
+  /* Main panel adjustments */
+  .main-panel {
+    margin-right: 0;
+    padding: 16px 12px;
+  }
+
+  /* User details adjustments */
+  .user-details {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* Table responsive design */
+  .dashboard-container table,
+  .reports-table {
+    width: 100%;
+    font-size: 0.85em;
+    min-width: auto;
+  }
+
+  /* Make tables full width on mobile */
+  .dashboard-table,
+  .reports-table {
+    width: 100%;
+    display: table;
+    white-space: normal;
+  }
+
+  .dashboard-container th,
+  .dashboard-container td,
+  .reports-table th,
+  .reports-table td {
+    padding: 8px 6px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+
+  /* Hide less important columns on mobile - but keep status */
+  .dashboard-container th:nth-child(3),
+  .dashboard-container td:nth-child(3),
+  .dashboard-container th:nth-child(5),
+  .dashboard-container td:nth-child(5) {
+    display: none;
+  }
+
+  /* Ticket stats responsive */
+  .ticket-stats {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ticket-stats .stat {
+    min-width: auto;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  /* Filter tabs responsive */
+  .filter-tabs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-tab {
+    text-align: center;
+    padding: 12px;
+  }
+
+  /* Report section adjustments */
+  .report-section {
+    padding: 16px 8px 24px 8px;
+    margin: 16px auto 0 auto;
+  }
+
+  .report-table-container {
+    margin-top: 12px;
+  }
+
+  /* Status badges */
+  .status-badge {
+    min-width: 60px;
+    font-size: 0.8em;
+    padding: 3px 6px;
+  }
+
+  /* Form adjustments */
+  form {
+    max-width: 100%;
+    margin: 16px 8px;
+    padding: 12px;
+  }
+
+  /* Toggle theme button */
+  .toggle-theme {
+    left: 8px;
+    top: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1em;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .main-panel {
+    padding: 12px 8px;
+  }
+
+  .user-details {
+    padding: 12px;
+  }
+
+  /* Ensure text labels are still visible on small screens */
+  .sidebar-menu li span {
+    font-size: 0.85em;
+  }
+
+  .sidebar-menu svg {
+    min-width: 18px;
+    min-height: 18px;
+  }
+
+  .dashboard-container table,
+  .reports-table {
+    font-size: 0.8em;
+  }
+
+  .dashboard-container th,
+  .dashboard-container td,
+  .reports-table th,
+  .reports-table td {
+    padding: 4px 2px;
+    max-width: 100px;
+  }
+
+  /* Hide more columns on very small screens - but keep status */
+  .dashboard-container th:nth-child(5),
+  .dashboard-container td:nth-child(5) {
+    display: none;
+  }
+
+  .ticket-stats .stat {
+    padding: 12px;
+  }
+
+  .stat-number {
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
+  /* Ticket content adjustments */
+  .ticket-title {
+    font-size: 0.9em;
+  }
+
+  .ticket-preview {
+    font-size: 0.8em;
+  }
+
+  .agent-name {
+    font-size: 0.9em;
+  }
+
+  .agent-email {
+    font-size: 0.8em;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .sidebar {
+    height: auto;
+    min-height: auto;
+  }
+
+  .sidebar .user-info {
+    padding: 8px 0;
+  }
+
+  .sidebar-menu {
+    padding: 8px;
+  }
+
+  .sidebar-menu li {
+    padding: 6px 10px;
+  }
+
+  .main-panel {
+    padding: 12px 8px;
+  }
+
+  .ticket-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .ticket-stats .stat {
+    flex: 1;
+    min-width: 80px;
+  }
+}
+
 /* Inline Styles - Moved from PHP files */
 
 /* Error Messages */
@@ -535,6 +938,35 @@ th {
   color: #666;
 }
 
+/* Mobile improvements for admin dashboard */
+@media (max-width: 768px) {
+  .empty-report-cell {
+    padding: 16px;
+    font-size: 0.9em;
+  }
+  
+  /* Improve report table container */
+  .report-table-container {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Better spacing for report section */
+  .report-section {
+    margin: 16px 0;
+  }
+  
+  /* Improve filter tabs on mobile */
+  .filter-tabs {
+    justify-content: center;
+  }
+  
+  .filter-tab {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 /* Form Containers */
 .form-container {
   max-width: 400px;
@@ -543,4 +975,72 @@ th {
 
 .verification-notice {
   color: #888;
+}
+
+/* Additional mobile improvements */
+@media (max-width: 768px) {
+  /* Better form handling */
+  .form-container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+  
+  /* Improve button sizing */
+  .change-pass-btn {
+    width: 100%;
+    margin-top: 12px;
+  }
+  
+  /* Better link handling */
+  a {
+    padding-right: 20px;
+  }
+  
+  /* Improve headings */
+  h2 {
+    font-size: 1.3em;
+    margin: 16px 0;
+  }
+  
+  /* Better spacing for main content */
+  .main-panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Improve table links */
+  .dashboard-container td a,
+  .reports-table td a {
+    padding-right: 0;
+    font-size: 0.9em;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .main-panel {
+    padding: 8px 4px;
+  }
+  
+  .user-details {
+    padding: 8px;
+  }
+  
+  .dashboard-container table,
+  .reports-table {
+    font-size: 0.75em;
+  }
+  
+  .ticket-stats .stat {
+    padding: 8px;
+  }
+  
+  .stat-number {
+    font-size: 1.1rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
 }

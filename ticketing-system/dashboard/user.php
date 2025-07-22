@@ -88,7 +88,7 @@ function status_fa($status) {
             <td><?= htmlspecialchars($t['unique_code']) ?></td>
             <td><?= htmlspecialchars($t['title']) ?></td>
             <td><?= htmlspecialchars($t['priority']) ?></td>
-            <td><?= status_fa($t['status']) ?></td>
+            <td class="status-cell-<?= $t['status'] ?>"><?= status_fa($t['status']) ?></td>
             <td><?= htmlspecialchars($t['created_at']) ?></td>
             <td><a href="../ticket/view.php?id=<?= $t['id'] ?>">مشاهده</a></td>
         </tr>
@@ -100,9 +100,21 @@ function status_fa($status) {
 document.addEventListener('DOMContentLoaded', function() {
     var toggle = document.getElementById('tickets-toggle');
     var submenu = document.getElementById('tickets-submenu');
-    submenu.classList.remove('expanded'); // default collapsed
-    toggle.addEventListener('click', function() {
+    
+    // Default collapsed
+    submenu.classList.remove('expanded');
+    
+    toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         submenu.classList.toggle('expanded');
+    });
+    
+    // Close submenu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !submenu.contains(e.target)) {
+            submenu.classList.remove('expanded');
+        }
     });
 });
 </script>
